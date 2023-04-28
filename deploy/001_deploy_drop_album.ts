@@ -14,9 +14,9 @@ const func: DeployFunction = async ({ getNamedAccounts, deployments, network, ru
     // set external contract address
   }
 
-  // the following will only deploy "Greeter" if the contract was never deployed or if the code changed since last deployment
-  const args = ["Hello, World!"];
-  const greeter = await deploy("Greeter", {
+  // the following will only deploy "DropAlbum" if the contract was never deployed or if the code changed since last deployment
+  const args = ["TestDropAlbum", "TDA", deployer, 500];
+  const dropAlbum = await deploy("DropAlbum", {
     from: deployer,
     args,
     log: true,
@@ -28,12 +28,12 @@ const func: DeployFunction = async ({ getNamedAccounts, deployments, network, ru
   if (!isDev) {
     log("Verifying...");
     await run("verify:verify", {
-      address: greeter.address,
+      address: dropAlbum.address,
       constructorArguments: args,
     });
   }
 };
 
 export default func;
-func.tags = ["all", "Greeter"];
+func.tags = ["all", "DropAlbum"];
 func.dependencies = []; // this contains dependencies tags need to execute before deploy this contract

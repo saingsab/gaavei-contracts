@@ -8,24 +8,13 @@ import "solidity-docgen";
 
 import "./scripts/accounts";
 
-const dotenvConfigPath: string = process.env.DOTENV_CONFIG_PATH || "./.env";
+const dotenvConfigPath: string = process.env.DOTENV_CONFIG_PATH || ".env";
 dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 
 // Ensure that we have all the environment variables we need.
-const ci: string | undefined = process.env.CI;
-const mnemonic: string | undefined = process.env.MNEMONIC;
+const mnemonic: string = process.env.MNEMONIC || "test ".repeat(11) + "junk";
 const privateKey: string | undefined = process.env.PRIVATE_KEY;
-const infuraApiKey: string | undefined = process.env.INFURA_API_KEY;
-
-if (!(ci || ci == "true")) {
-  if (!mnemonic && !privateKey) {
-    throw new Error("Please set your MNEMONIC or PRIVATE_KEY in a .env file");
-  }
-
-  if (!infuraApiKey) {
-    throw new Error("Please set your INFURA_API_KEY in a .env file");
-  }
-}
+const infuraApiKey: string = process.env.INFURA_API_KEY || "";
 
 export const chainIds = {
   "arbitrum-mainnet": 42161,
@@ -41,7 +30,7 @@ export const chainIds = {
   "polygon-mainnet": 137,
   "polygon-mumbai": 80001,
   goerli: 5,
-  localhost: 31337,
+  localhost: 1337,
 };
 
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
@@ -69,19 +58,19 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
     live: true,
   };
 
-  if (mnemonic)
+  if (privateKey)
     return {
       ...chainConfig,
-      accounts: {
-        count: 10,
-        mnemonic,
-        path: "m/44'/60'/0'/0",
-      },
+      accounts: privateKey !== undefined ? [privateKey] : [],
     };
 
   return {
     ...chainConfig,
-    accounts: privateKey !== undefined ? [privateKey] : [],
+    accounts: {
+      count: 10,
+      mnemonic,
+      path: "m/44'/60'/0'/0",
+    },
   };
 }
 
@@ -158,7 +147,7 @@ const config: HardhatUserConfig = {
     },
   },
   solidity: {
-    version: "0.8.12",
+    version: "0.8.15",
     settings: {
       metadata: {
         // Not including the metadata hash
@@ -169,7 +158,7 @@ const config: HardhatUserConfig = {
       // https://hardhat.org/hardhat-network/#solidity-optimizer-support
       optimizer: {
         enabled: true,
-        runs: 800,
+        runs: 200,
       },
     },
   },

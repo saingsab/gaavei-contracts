@@ -13,6 +13,7 @@ specifiers:
   '@nomiclabs/hardhat-ethers': ^2.2.1
   '@nomiclabs/hardhat-etherscan': ^3.1.2
   '@release-it/conventional-changelog': ^5.1.1
+  '@thirdweb-dev/contracts': ^3.4.5
   '@trivago/prettier-plugin-sort-imports': ^3.3.0
   '@typechain/ethers-v5': ^10.1.1
   '@typechain/hardhat': ^6.1.4
@@ -82,6 +83,7 @@ devDependencies:
   '@commitlint/config-conventional': 17.1.0
   '@csmith/release-it-calver-plugin': 2022.12.15_release-it@15.8.0
   '@release-it/conventional-changelog': 5.1.1_release-it@15.8.0
+  '@thirdweb-dev/contracts': 3.4.5
   '@trivago/prettier-plugin-sort-imports': 3.3.0_prettier@2.7.1
   '@typescript-eslint/eslint-plugin': 5.39.0_cfd7h3iktziq6hcwahu2qxhjhy
   '@typescript-eslint/parser': 5.39.0_z4bbprzjrhnsfa24uvmcbu7f5q
@@ -1592,6 +1594,10 @@ packages:
     engines: {node: '>=14.16'}
     dependencies:
       defer-to-connect: 2.0.1
+    dev: true
+
+  /@thirdweb-dev/contracts/3.4.5:
+    resolution: {integrity: sha512-HHiNBXlctfJOF0lRMHYuJP1dYczkoCua8Wqf/FkORISytaF4LYWkKdhIirwy8QWG2MNvzOyRwSekWf2y1diPsw==}
     dev: true
 
   /@tootallnate/once/1.1.2:
