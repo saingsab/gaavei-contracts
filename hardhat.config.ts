@@ -12,7 +12,8 @@ const dotenvConfigPath: string = process.env.DOTENV_CONFIG_PATH || ".env";
 dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 
 // Ensure that we have all the environment variables we need.
-const mnemonic: string = process.env.MNEMONIC || "test ".repeat(11) + "junk";
+const testJunk = "test ".repeat(11) + "junk";
+const mnemonic: string = process.env.MNEMONIC || testJunk;
 const privateKey: string | undefined = process.env.PRIVATE_KEY;
 const infuraApiKey: string = process.env.INFURA_API_KEY || "";
 
@@ -30,7 +31,7 @@ export const chainIds = {
   "polygon-mainnet": 137,
   "polygon-mumbai": 80001,
   goerli: 5,
-  localhost: 1337,
+  localhost: 1993,
 };
 
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
@@ -61,7 +62,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
   if (privateKey)
     return {
       ...chainConfig,
-      accounts: privateKey !== undefined ? [privateKey] : [],
+      accounts: [privateKey],
     };
 
   return {
@@ -114,6 +115,7 @@ const config: HardhatUserConfig = {
     },
     localhost: {
       chainId: chainIds.localhost,
+      accounts: { mnemonic: testJunk },
       live: false,
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),
