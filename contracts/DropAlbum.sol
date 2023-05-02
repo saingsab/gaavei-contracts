@@ -2,8 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "@thirdweb-dev/contracts/base/ERC1155LazyMint.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract DropAlbum is ERC1155LazyMint {
+    using Strings for uint256;
     struct ClaimRestriction {
         uint256 startTimestamp; // timestamp to start claim
         uint256 maxSupply; // max supply of tokenId
@@ -268,5 +270,11 @@ contract DropAlbum is ERC1155LazyMint {
 
     function _canWithdraw() internal view virtual returns (bool) {
         return msg.sender == owner();
+    }
+
+    /// @notice Returns the metadata URI for the given tokenId.
+    function uri(uint256 _tokenId) public view virtual override returns (string memory) {
+        string memory batchUri = _getBaseURI(_tokenId);
+        return string(abi.encodePacked(batchUri, _tokenId.toString(), ".json"));
     }
 }
